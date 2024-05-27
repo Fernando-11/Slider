@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+	<script src="estilo.css"></script>
+-->
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="authoring-tool" content="Adobe_Animate_CC">
+	<title>Restaurante</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!--<link rel="stylesheet" href="estilo.css">-->
+	<!-- write your code here -->
+	<script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+	<script src="SliderCapa_Tarea_HTML5 Canvas.js?1716758696208"></script>
+
+	<script>
+		var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+		function init() {
+			canvas = document.getElementById("canvas");
+			anim_container = document.getElementById("animation_container");
+			dom_overlay_container = document.getElementById("dom_overlay_container");
+			var comp = AdobeAn.getComposition("6C40A2233AF6A34E9C20B0B9201E3839");
+			var lib = comp.getLibrary();
+			var loader = new createjs.LoadQueue(false);
+			loader.addEventListener("fileload", function (evt) { handleFileLoad(evt, comp) });
+			loader.addEventListener("complete", function (evt) { handleComplete(evt, comp) });
+			var lib = comp.getLibrary();
+			loader.loadManifest(lib.properties.manifest);
+		}
+		function handleFileLoad(evt, comp) {
+			var images = comp.getImages();
+			if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }
+		}
+		function handleComplete(evt, comp) {
+			//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+			var lib = comp.getLibrary();
+			var ss = comp.getSpriteSheet();
+			var queue = evt.target;
+			var ssMetadata = lib.ssMetadata;
+			for (i = 0; i < ssMetadata.length; i++) {
+				ss[ssMetadata[i].name] = new createjs.SpriteSheet({ "images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames })
+			}
+			exportRoot = new lib.SliderCapa_Tarea_HTML5Canvas();
+			stage = new lib.Stage(canvas);
+			stage.enableMouseOver();
+			//Registers the "tick" event listener.
+			fnStartAnimation = function () {
+				stage.addChild(exportRoot);
+				createjs.Ticker.framerate = lib.properties.fps;
+				createjs.Ticker.addEventListener("tick", stage);
+			}
+			//Code to support hidpi screens and responsive scaling.
+			AdobeAn.makeResponsive(false, 'both', false, 1, [canvas, anim_container, dom_overlay_container]);
+			AdobeAn.compositionLoaded(lib.properties.id);
+			fnStartAnimation();
+		}
+	</script>
+	<!-- write your code here -->
+	<style>
+		.body {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
+		.animation_container {
+			background-color: rgba(255, 255, 255, 1.00);
+			position: absolute;
+		}
+
+		canvas {
+			width: 100% !important;
+		}
+
+		#dom_overlay_container {
+			pointer-events: none;
+			overflow: hidden;
+			position: relative;
+			left: 0;
+			top: 0;
+			width: 100%;
+			display: block;
+		}
+	</style>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+</head>
+
+<body onload="init();" style="margin:0px;">
+	<nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color: aqua;">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="images/logo.png" alt="Bootstrap" width="300px" height="100px">
+			</a>
+			<a class="navbar-brand" href="https://www.gmail.com">info@lacocinadeelisa.es</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"></button>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="https://www.facebook.com/">
+							<img src="images/facebook.png" alt="" width="50px " height="50px"> <br>Facebook</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link active" aria-current="page" href="#">
+							<img src="images/icons8-repartidor-64.png" alt="" width="50px " height="50px"><br>Envíos</a>
+					</li>
+					<li class="nav-item dropdown" style="background-position: center; margin-left: 20px;">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Categorias
+						  </a>
+						  <ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Bebidas</a></li>
+							<li><a class="dropdown-item" href="#">Platos</a></li>
+							<li><hr class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="#">Especiales</a></li>
+						  </ul>
+					</li>
+				</ul>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" placeholder="Escibe aquí" aria-label="Search">
+					<button class="btn btn-outline-success" type="submit">Buscar</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+
+	</nav>
+
+	<br><br>
+	<div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:1850px; height:650px; ">
+		<canvas id="canvas" width="1850" height="650"
+			style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container"
+			style="pointer-events:none; overflow:hidden; width:1850px; height:650px; position: absolute; left: 0px; top: 0px; display: block;">
+		</div>
+	</div>
+	<br><br>
+	<div class="container-fluid mt-5">
+		<div class="row justify-content-center g-4">
+			<div class="col-12 col-md-3 mb-4 ">
+				<div class="card" style="width: 30rem;">
+					<img src="images/menu.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Eliges tus platos favoritos</h5>
+						<p class="card-text">Pide tu comida a domicilio a través de tu ordenador, tablet o móvil. Puedes
+							hacer pedidos de menús semanales y cada semana tendrás tu tuppers.</p>
+						<a href="#" class="btn btn-primary">Ir al Menú</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-3 mb-4">
+				<div class="card" style="width: 30rem;">
+					<img src="images/Delivery.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Lo recibes en tu domicilio</h5>
+						<p class="card-text">Te enviamos el pedido refrigerado donde tu quieras. Envíamos en toda la
+							península.</p>
+						<a href="#" class="btn btn-primary">Haz una Reserva</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-5 col-md-3 mb-4">
+				<div class="card" style="width: 30rem;">
+					<img src="images/Cocinamos.jpg" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">Cocinamos tu pedido con mucho cariño</h5>
+						<p class="card-text">Preparamos tus platos de forma casera y 100% natural, con ingredientes
+							sostenibles de proximidad.</p>
+						<a href="#" class="btn btn-primary">Contactanos</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+		crossorigin="anonymous"></script>
+
+</body>
+
+</html>
